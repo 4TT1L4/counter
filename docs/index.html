@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counter</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: #1e1e1e; /* Dark gray */
+    color: lightgray;
+  }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: system-ui, sans-serif;
+  }
+  #counter {
+    font-size: 30vmin;
+    user-select: none;
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(255,255,255,0.1);
+    transition: color 0.2s, text-shadow 0.2s;
+  }
+</style>
+</head>
+<body>
+  <div id="counter">0</div>
+  <script>
+    (function () {
+      const el = document.getElementById('counter');
+      let canIncrement = true;
+      let value = 0;
+
+      const colors = {
+        green: { r: 0, g: 255, b: 100 },
+        yellow: { r: 255, g: 255, b: 0 },
+        blue: { r: 0, g: 200, b: 255 }
+      };
+
+      const colorKeys = Object.keys(colors);
+      const selected = colors[colorKeys[Math.floor(Math.random() * colorKeys.length)]];
+
+      function getColor(intensity) {
+        // Intensity from 0 to 1
+        const r = Math.round(selected.r * intensity + 200 * (1 - intensity));
+        const g = Math.round(selected.g * intensity + 200 * (1 - intensity));
+        const b = Math.round(selected.b * intensity + 200 * (1 - intensity));
+        return `rgb(${r}, ${g}, ${b})`;
+      }
+
+      function updateColor() {
+        const intensity = Math.min(value / 100, 1); // from 0 to 1
+        const color = getColor(intensity);
+        el.style.color = color;
+        el.style.textShadow = `0 0 ${10 + 30 * intensity}px ${color}`;
+      }
+
+      function increment() {
+        if (!canIncrement) return;
+        canIncrement = false;
+
+        value = Math.min(999, value + 1);
+        el.textContent = value;
+        updateColor();
+
+        setTimeout(() => {
+          canIncrement = true;
+        }, 500);
+      }
+
+      updateColor(); // initial
+      document.addEventListener('pointerdown', increment);
+    })();
+  </script>
+</body>
+</html>
