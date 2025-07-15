@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Counter</title>
-<style>
-  html, body {
-    height: 100%;
-    margin: 0;
-    background: #1e1e1e;
-    color: lightgray;
-  }
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: system-ui, sans-serif;
-  }
-  #counter {
-    font-size: 30vmin;
-    user-select: none;
-    line-height: 1;
-    text-shadow: 0 0 6px rgba(255,255,255,0.2);
-    transition: color 0.2s, text-shadow 0.2s;
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e1e1e">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #1e1e1e;
+      color: lightgray;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: system-ui, sans-serif;
+    }
+    #counter {
+      font-size: 30vmin;
+      user-select: none;
+      line-height: 1;
+      text-shadow: 0 0 6px rgba(255,255,255,0.2);
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+  </style>
 </head>
 <body>
   <div id="counter">0</div>
@@ -97,6 +99,13 @@
       updateColor(); // initial
       document.addEventListener('pointerdown', increment);
     })();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered:', reg.scope))
+        .catch(err => console.error('Service Worker registration failed:', err));
+    }
   </script>
 </body>
 </html>
